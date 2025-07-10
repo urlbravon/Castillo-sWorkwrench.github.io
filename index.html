@@ -30,6 +30,20 @@
 
         /* Carousel specific styles */
         .carousel-container {
+   position: relative;
+   width: 100%;
+   height: 100%;
+   overflow: hidden; /* Ensures images are clipped if they exceed container */
+   border-radius: 0.75rem; /* Equivalente a rounded-xl */
+   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Leve sombra */
+}
+.rounded-xl {
+   border-radius: 0.75rem;
+}
+.shadow-lg {
+   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+        .carousel-container {
             position: relative;
             width: 100%;
             height: 100%;
@@ -37,20 +51,18 @@
             /* Tailwind classes rounded-xl and shadow-lg are added directly in HTML for simplicity */
         }
         .carousel-image {
-            transition: opacity 1s ease-in-out;
+            transition: opacity 1s ease-in-out; /* Smooth fade transition */
             position: absolute; /* Allows images to overlap for fade effect */
             width: 100%;
             height: 100%;
             object-fit: cover; /* Ensures images cover the area without distortion */
             top: 0;
             left: 0;
-        }
-        .carousel-image.hidden {
-            opacity: 0;
-            z-index: 1; /* Keep hidden images below active ones */
+            opacity: 0; /* Hidden by default */
+            z-index: 1; /* Default z-index for hidden images */
         }
         .carousel-image.active {
-            opacity: 1;
+            opacity: 1; /* Active image is visible */
             z-index: 2; /* Bring active image to front */
         }
         /* Keyframe animations for text entrance */
@@ -67,6 +79,30 @@
         }
         .animate-fade-in-up {
             animation: fadeInUp 1s ease-out forwards;
+        }
+
+        /* Discord Button Specific Styles */
+        .discord-button-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100; /* Ensure it's above most content */
+            transition: transform 0.3s ease-out;
+            animation: bounceIn 1s ease-out forwards; /* Simple entrance animation */
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+            }
         }
     </style>
 </head>
@@ -94,8 +130,8 @@
         <section class="relative py-20 md:py-32 flex items-center justify-center text-white overflow-hidden h-96 md:h-[500px]">
             <div class="absolute inset-0 w-full h-full carousel-container rounded-xl shadow-lg">
                 <img id="carousel-img-1" src="foto1.jpg" alt="Imagem de um Mecânico Trabalhando" class="carousel-image active">
-                <img id="carousel-img-2" src="foto2.jpg" alt="Imagem de Peças Automotivas de Qualidade" class="carousel-image hidden">
-                <img id="carousel-img-3" src="foto3.jpg" alt="Imagem de Manutenção Automotiva Detalhada" class="carousel-image hidden">
+                <img id="carousel-img-2" src="foto2.jpg" alt="Imagem de Peças Automotivas de Qualidade" class="carousel-image">
+                <img id="carousel-img-3" src="foto3.jpg" alt="Imagem de Manutenção Automotiva Detalhada" class="carousel-image">
             </div>
 
             <div class="absolute inset-0 bg-black bg-opacity-60 rounded-xl"></div> <div class="relative z-10 text-center px-4 max-w-4xl mx-auto"> <h2 class="text-3xl md:text-5xl font-extrabold leading-tight mb-4 animate-fade-in-down">
@@ -296,6 +332,17 @@
         </section>
     </main>
 
+    <div class="discord-button-container">
+        <a href="https://discord.gg/576Ubq59E7" target="_blank" rel="noopener noreferrer" 
+           class="flex items-center bg-indigo-600 text-white rounded-full p-3 shadow-lg 
+                  hover:bg-indigo-700 transition-all duration-300 transform hover:scale-105 group">
+            <svg class="w-6 h-6 mr-2 group-hover:mr-3 transition-all duration-300" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20.25 0H3.75C1.678 0 0 1.678 0 3.75v16.5C0 22.322 1.678 24 3.75 24h16.5c2.072 0 3.75-1.678 3.75-3.75V3.75C24 1.678 22.322 0 20.25 0zM17.18 16.275c-.6.375-1.125.75-1.613 1.05-.638.375-1.185.713-1.688.938-.413.188-.825.263-1.163.263-.375 0-.75-.075-1.05-.225-.45-.225-.863-.563-1.275-.863-1.125-.863-2.175-1.913-3.113-3.075-.675-.825-1.163-1.65-1.463-2.475-.3-.9-.45-1.875-.45-2.85 0-2.438 1.65-4.425 4.35-4.425 1.238 0 2.4.488 3.263 1.35.75-.413 1.425-.675 1.95-.9.413-.15.825-.263 1.125-.338.3-.075.525-.113.675-.113.263 0 .488.038.675.113.3.075.6.188.825.338.563.3.975.6.1.75.9.975.3 1.613-.338 2.063-.525.675-1.163 1.313-1.95 1.913-2.438-.638.45-1.125.9-1.5 1.313-2.55 2.7-5.025 5.513-7.238 8.025.563-.075 1.163-.113 1.763-.113.788 0 1.575.113 2.363.338.6.15 1.2.338 1.763.563.338.15.638.3.9.45.263.15.45.263.563.338.113.075.225.113.338.113.3 0 .638-.113.975-.338.338-.225.6-.45.825-.675.263-.263.45-.488.563-.675.113-.188.15-.338.113-.45.038-.038.075-.075.113-.075.038 0 .075.038.113.038.075.038.15.075.225.113.113.075.225.113.338.113.225 0 .413-.038.563-.113.15-.075.3-.15.413-.225.113-.075.225-.15.263-.188.075-.075.113-.15.15-.225.075-.113.113-.225.15-.338.038-.113.038-.225 0-.3.075.075.113.15.15.225.038.075.038.15 0 .225-.038.075-.075.15-.113.225-.15.225-.375.45-.6.675-.225.225-.45.413-.675.6.038-.038.038-.075 0-.113-.038-.075-.075-.15-.15-.225-.113-.15-.263-.263-.45-.375-.188-.113-.375-.188-.563-.225-.188-.038-.338-.038-.45 0-.113.038-.263.075-.413.113-.15.075-.3.113-.413.15-.038-.038-.075-.075-.113-.075-.038 0-.075.038-.113.038-.075.038-.15.075-.225.113-.113.075-.225.113-.338.113-.225 0-.413-.038-.563-.113-.15-.075-.3-.15-.413-.225-.113-.075-.225-.15-.263-.188-.075-.075-.113-.15-.15-.225-.075-.113-.113-.225-.15-.338-.038-.113-.038-.225 0-.3.075.075.113.15.15.225.038.075.038.15 0 .225-.038.075-.075.15-.113.225-.15.225-.375.45-.6.675-.225.225-.45.413-.675.6.038-.038.038-.075 0-.113-.038-.075-.075-.15-.15-.225-.113-.15-.263-.263-.45-.375-.188-.113-.375-.188-.563-.225-.188-.038-.338-.038-.45 0-.113.038-.263.075-.413.113-.15.075-.3.113-.413.15z"/>
+            </svg>
+            <span class="font-semibold whitespace-nowrap text-lg">Fale Comigo no Discord</span>
+        </a>
+    </div>
+
     <footer class="bg-gray-900 text-white py-8 px-4 text-center shadow-inner">
         <div class="container mx-auto">
             <p class="text-lg">&copy; 2025 Ell's Auto Services. Todos os direitos reservados.</p>
@@ -339,13 +386,11 @@
 
             // Function to show a specific image
             function showImage(index) {
-                // Ensure all images are hidden first
+                // Remove active class from all images first
                 images.forEach(img => {
                     img.classList.remove('active');
-                    img.classList.add('hidden');
                 });
-                // Then show the active image
-                images[index].classList.remove('hidden');
+                // Add active class to the current image
                 images[index].classList.add('active');
                 currentImageIndex = index; // Update the current index
                 updateIndicators(); // Update indicators as well
